@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useAppContext } from '../../context/sharedState';
 import { UnitSystem } from '../TempratureSection';
 
 const ComponentContainer = styled.div`
@@ -26,19 +27,21 @@ const Switch = styled.p`
 `
 
   
-export const MetricSwitch = ({ onClick, unitSystem }: { onClick: any; unitSystem: UnitSystem }) => {
-    // className={`${styles.switch} ${
-    //     unitSystem == "metric" ? styles.active : styles.inactive
-    //   }`}
+export const MetricSwitch = ({ onClick }: { onClick: any; }) => {
+
+  const context = useAppContext();
+
   return (
     <ComponentContainer>
       <Switch
         onClick={onClick}
+        color={context.unitSystem == "metric" ? 'green' : 'black' }
       >
         Metric System
       </Switch>
       <Switch
         onClick={onClick}
+        color={context.unitSystem == "metric" ? 'black' : 'green' }
       >
         Imperial System
       </Switch>

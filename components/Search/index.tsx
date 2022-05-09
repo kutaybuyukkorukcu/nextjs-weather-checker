@@ -1,4 +1,7 @@
+import { FormEvent, useState, useEffect } from 'react';
 import styled from 'styled-components'
+import { useAppContext } from '../../context/sharedState';
+import { useDebounce } from '../../hooks/useDebounce';
 
 const SearchInput = styled.input`
     height: 40px;
@@ -19,24 +22,33 @@ const SearchInput = styled.input`
 export const Search = ({
     placeholder,
     value,
-    onFocus,
-    onChange,
-    onKeyDown,
 }: {
-    placeholder: string;
-    value: string;
-    onFocus: any;
-    onChange: any;
-    onKeyDown: any;
+    placeholder?: string;
+    value?: string;
 }) => {
+
+  const context = useAppContext();
+  
+  const [searchTerm, setSearchTerm] = useState<string>(value);
+  
+  const debouncedInput: string = useDebounce<string>(searchTerm, 500);
+
+  useEffect(
+    () => {
+      if (debouncedInput) {
+        context.setCity(debouncedInput)
+      } else {
+        // context.setCity('')
+      }
+    }, [debouncedInput]
+  )
+  
   return (
     <SearchInput
       type="text"
       placeholder={placeholder}
       value={value}
-      onFocus={onFocus}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
+      onChange={(event: FormEvent<HTMLInputElement>) => setSearchTerm((event.target as HTMLInputElement).value)}
     />
   );
 };

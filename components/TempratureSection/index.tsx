@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import Image from "next/image";
 import { celcioustoFahrenheit } from '../../helpers';
+import { useAppContext } from '../../context/sharedState';
 
 const ComponentContainer = styled.div`
     text-align: center;
@@ -27,47 +28,36 @@ const FeelsLikeTemprature = styled.p`
 
 export type UnitSystem = "metric" | "imperial";
 
-export const TempratureSection = ({
-    city,
-    country,
-    description,
-    iconName,
-    unitSystem,
-    weatherData,
-}: {
-    city: string;
-    country: string;
-    description: string;
-    iconName: string;
-    unitSystem: UnitSystem;
-    weatherData: any;
-}) => {
+export const TempratureSection = () => {
+
+    const context = useAppContext();
+
     return (
         <ComponentContainer>
             <Position>
-                {city}, {country}
+                {context.data.infos.city}, {context.data.infos.country}
             </Position>
-            <Description>{description}</Description>
+            <Description>{context.data.infos.description}</Description>
             <Image
                 width="300px"
                 height="300px"
-                src={`/icons/${iconName}.svg`}
+                src={`/icons/${context.data.infos.iconName}.svg`}
                 alt="weatherIcon"
             />
             <Temprature>
-                {unitSystem == "metric"
-                    ? Math.round(weatherData.main.temp)
-                    : Math.round(celcioustoFahrenheit(weatherData.main.temp))
+                {context.unitSystem == "metric"
+                    ? Math.round(context.data.temprature.real)
+                    : Math.round(celcioustoFahrenheit(context.data.temprature.real))
                 }
-                °{unitSystem == "metric" ? "C" : "F"}
+                °{context.unitSystem == "metric" ? "C" : "F"}
             </Temprature>
             <FeelsLikeTemprature>
                 Feels like{" "}
-                {unitSystem == "metric"
-                    ? Math.round(weatherData.main.feels_like)
-                    : Math.round(celcioustoFahrenheit(weatherData.main.feels_like))
+                {context.unitSystem == "metric"
+                    ? Math.round(context.data.temprature.feelsLike)
+                    : Math.round(celcioustoFahrenheit(context.data.temprature.feelsLike))
                 }
-                °{unitSystem == "metric" ? "C" : "F"}
+                °{context.unitSystem == "metric" ? "C" : "F"}
             </FeelsLikeTemprature>
         </ComponentContainer>
     );

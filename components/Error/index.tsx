@@ -9,7 +9,7 @@ const Message = styled.h1`
     margin-bottom: 2rem;
 `
 
-export const Error = ({ errorMessage, children }: { errorMessage: string; children: React.ReactChildren }) => {
+export const Error = ({ errorMessage, children }: { errorMessage: string; children: React.ReactElement }) => {
     return (
         <CompContainer>
             <Message> { errorMessage } </Message>

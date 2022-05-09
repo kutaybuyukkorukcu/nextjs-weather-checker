@@ -1,21 +1,24 @@
 import styled from 'styled-components';
+import { useAppContext } from '../../context/sharedState';
 import { getAMPM, getTime, getWeekDay } from '../../helpers';
-import { UnitSystem } from "../TempratureSection";
 
 const ComponentContainer = styled.div`
     display: flex;
     align-items: center;
 `
 
-export const Date = ({ weatherData, unitSystem }: { weatherData: any; unitSystem: UnitSystem }) => {
+export const Date = () => {
+
+  const context = useAppContext();
+  
   return (
     <ComponentContainer>
       <h2>
-        {`${getWeekDay(weatherData)}, ${getTime(
-          unitSystem,
-          weatherData.dt,
-          weatherData.timezone
-        )} ${getAMPM(unitSystem, weatherData.dt, weatherData.timezone)}`}
+        {`${getWeekDay(context.data.time)}, ${getTime(
+          context.unitSystem,
+          context.data.time.dt,
+          context.data.time.timezone
+        )} ${getAMPM(context.unitSystem, context.data.time.dt, context.data.time.timezone)}`}
       </h2>
     </ComponentContainer>
   );

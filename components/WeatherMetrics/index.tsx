@@ -1,8 +1,8 @@
 import { degreeToCompass, getAMPM, getTime, getVisibility, getWindSpeed } from "../../helpers";
 import { MetricsCard } from "../MetricsCard/index";
-import { UnitSystem } from "../TempratureSection";
 import PlaceholderIcon from "../../public/icons/placeholder.png";
 import styled from 'styled-components'
+import { useAppContext } from "../../context/sharedState";
 
 const ComponentContainer = styled.div`
     display: grid;
@@ -19,55 +19,58 @@ const ComponentContainer = styled.div`
     }
 `
 
-export const MetricsBox = ({ weatherData, unitSystem }: { weatherData: any; unitSystem: UnitSystem }) => {
+export const MetricsBox = () => {
+  
+  const context = useAppContext();
+
   return (
     <ComponentContainer>
       <MetricsCard
         title={"Humidity"}
         icon={PlaceholderIcon}
-        metric={weatherData.main.humidity}
+        metric={context.data.metrics.humidity}
         unit={"%"}
       />
       <MetricsCard
         title={"Wind speed"}
         icon={PlaceholderIcon}
-        metric={getWindSpeed(unitSystem, weatherData.wind.speed)}
-        unit={unitSystem == "metric" ? "m/s" : "m/h"}
+        metric={getWindSpeed(context.unitSystem, context.data.metrics.windSpeed)}
+        unit={context.unitSystem == "metric" ? "m/s" : "m/h"}
       />
       <MetricsCard
         title={"Wind direction"}
         icon={PlaceholderIcon}
-        metric={degreeToCompass(weatherData.wind.deg)}
+        metric={degreeToCompass(context.data.metrics.windDirection)}
       />
       <MetricsCard
         title={"Visibility"}
         icon={PlaceholderIcon}
-        metric={getVisibility(unitSystem, weatherData.visibility)}
-        unit={unitSystem == "metric" ? "km" : "miles"}
+        metric={getVisibility(context.unitSystem, context.data.metrics.visibility)}
+        unit={context.unitSystem == "metric" ? "km" : "miles"}
       />
       <MetricsCard
         title={"Sunrise"}
         icon={PlaceholderIcon}
         metric={getTime(
-          unitSystem,
-          weatherData.sys.sunrise,
-          weatherData.timezone
+          context.unitSystem,
+          context.data.metrics.sunrise,
+          context.data.time.timezone
         )}
         unit={getAMPM(
-          unitSystem,
-          weatherData.sys.sunrise,
-          weatherData.timezone
+          context.unitSystem,
+          context.data.metrics.sunrise,
+          context.data.time.timezone
         )}
       />
       <MetricsCard
         title={"Sunset"}
         icon={PlaceholderIcon}
         metric={getTime(
-          unitSystem,
-          weatherData.sys.sunset,
-          weatherData.timezone
+          context.unitSystem,
+          context.data.metrics.sunset,
+          context.data.time.timezone
         )}
-        unit={getAMPM(unitSystem, weatherData.sys.sunset, weatherData.timezone)}
+        unit={getAMPM(context.unitSystem, context.data.metrics.sunset, context.data.time.timezone)}
       />
     </ComponentContainer>
   );

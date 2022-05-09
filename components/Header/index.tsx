@@ -12,6 +12,6 @@ const CompContainer = styled.div`
     }
 `
 
-export const Header = ({ children }: { children: React.ReactChildren }) => {
+export const Header = ({ children }: { children?: React.ReactElement[] }) => {
   return <CompContainer>{children}</CompContainer>;
 };

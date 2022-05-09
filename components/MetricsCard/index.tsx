@@ -16,7 +16,7 @@ const CardContent = styled.div`
     grid-template-columns: 1fr 2fr;
   }
 `
-  
+ 
 export const MetricsCard = ({ title, icon, metric, unit }: { title: string; icon: StaticImageData; metric: string; unit?: string; }) => {
   return (
     <ComponentContainer>

@@ -5,6 +5,6 @@ const Container = styled.div`
     padding: 2rem;
 `
 
-export const MainContainer = ({ children }: { children: React.ReactChildren }) => {
+export const MainContainer = ({ children }: { children?: React.ReactElement[] }) => {
     return <Container>{children}</Container>;
 };
